@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import './App.css'
+import MainPage from './components/MainPage/MainPage'
+import NewPost from './components/NewPost/NewPost'
+import PostPage from './components/PostPage/PostPage'
+import EditPost from './components/EditPost/EditPost'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [posts, setPosts] = useState()
+
+	const handleGetPosts = (data) => {
+		setPosts(data)
+	}
+
+	return (
+		<div className='App'>
+			<Router>
+				<Routes>
+					<Route path='/' element={<MainPage handleGetPosts={handleGetPosts} />} />
+					<Route path='/NewPost' element={<NewPost />} />
+					<Route path='/posts/:pId' element={<PostPage posts={posts} />} />
+					<Route path='/posts/:pId/edit' element={<EditPost posts={posts} />} />
+				</Routes>
+			</Router>
+		</div>
+	)
 }
 
-export default App;
+export default App
